@@ -3,7 +3,7 @@
   "name": "Bookmark Organizer",
   "version": "1.0.0",
   "description": "AI powered chrome extension for organizing bookmarks",
-  "permissions": ["bookmarks", "sidePanel"],
+  "permissions": ["bookmarks", "sidePanel", "storage"],
   "action": {
     "default_title": "Click to open Side Panel"
   },
