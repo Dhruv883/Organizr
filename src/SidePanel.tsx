@@ -63,20 +63,26 @@ function SidePanel() {
       // Group bookmarks / Filter All Bookmarks
       const grouped = groupBookmarks(rootGroup);
       setGroupedBookmarks(grouped);
+
+      // Store the original bookmarks only the first time
+      const storedBookmarks = await chrome.storage.local.get("allBookmarks");
+      if (!storedBookmarks.allBookmarks) {
+        await chrome.storage.local.set({ allBookmarks: rootGroup });
+      }
     }
     fetchBookmarks();
   }, []);
 
-  // useEffect(() => {
-  //   async function fetchLocalBookmarks() {
-  //     const bookmarks = await chrome.storage.local.get("allBookmarks");
-  //     if (bookmarks) return;
+  useEffect(() => {
+    async function fetchLocalBookmarks() {
+      const storedBookmarks = await chrome.storage.local.get("allBookmarks");
+      if (storedBookmarks.allBookmarks) {
+        setAllBookmarks(storedBookmarks.allBookmarks);
+      }
+    }
 
-  //     await chrome.storage.local.set({ allBookmarks: allBookmarks });
-  //   }
-
-  //   fetchLocalBookmarks();
-  // }, [allBookmarks]);
+    fetchLocalBookmarks();
+  }, []);
 
   return (
     <div className="w-full min-h-screen overflow-x-hidden">
